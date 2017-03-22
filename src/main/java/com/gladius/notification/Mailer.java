@@ -22,7 +22,18 @@ public class Mailer {
     private String password;
     private Properties props;
     private Session session;
+    private MailLogger mailLogger;
 
+    /**
+     * Constructor
+     *
+     * @param _from     the email address that will appear as the sender in all emails sent.
+     * @param _host     the SMTP server address that will handle the emails
+     * @param _port     the port of the SMTP server that will handle the emails
+     * @param _auth     boolean to indicate whether the server needs authentication
+     * @param _username the username needed to authenticate with the server
+     * @param _password the password needed to authenticate with the server
+     */
     public Mailer(String _from, String _host, String _port, boolean _auth, String _username, String _password) {
         from = _from;
         host = _host;
@@ -43,8 +54,17 @@ public class Mailer {
         } else {
             session = Session.getInstance(props);
         }
+
+        mailLogger = new MailLogger();
     }
 
+    /**
+     * Sends a email with the given HTML content with the given subject to the email specified.
+     *
+     * @param subject   the subject of the email to be sent.
+     * @param content   the HTML contenet of the email to be sent.
+     * @param email     the users email address to which the email needs to be send.
+     */
     public boolean sendNotification(String subject, String content, String email) {
         try {
             Message message = new MimeMessage(session);
@@ -54,11 +74,11 @@ public class Mailer {
             message.setContent(content, "text/html");
             // Send message
             Transport.send(message);
-            //log sent message to database
+            mailLogger.logMailSent();
             return true;
         } catch (MessagingException e) {
             //throw new RuntimeException(e);
-            //log error to database
+            mailLogger.logMailError(e.toString());
             return false;
         }
     }

@@ -1,9 +1,11 @@
+package com.gladius.notification;
+
 public class MailLogger{
 /**
 *logMailSent function logs every mail item that gets sent out
 *@Param type 
 */
-	public void logMailSent(type) {
+	public void logMailSent(/*type*/) {
 		
 	}
 /**
