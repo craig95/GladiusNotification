@@ -1,6 +1,6 @@
 public class MailLogger{
 
-	public void logMailSent(mail) {
+	public void logMailSent(type) {
 		
 	}
 	public  void logMailError(String error) {
