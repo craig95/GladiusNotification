@@ -4,6 +4,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import javax.imageio.IIOException;
+import java.io.IOException;
+
 /**
  * Unit test for simple App.
  */
@@ -31,8 +34,14 @@ public class AppTest
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    public void testSendEmail() throws IOException{
+        NotificationHandler notificationHandler = new NotificationHandler();
+        try {
+            if (notificationHandler.sendNotification("{\"just_a_test\": \"test_stuff\"}") == "{\"notification_sent\":true}")  {
+                assertTrue("Successfully sent email notification.", true);
+            }
+        } catch (IIOException e) {
+            assertTrue("Failed to send email notification.", true);
+        }
     }
 }
