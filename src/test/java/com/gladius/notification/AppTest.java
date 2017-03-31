@@ -39,9 +39,11 @@ public class AppTest
         try {
             if (notificationHandler.sendNotification("{\"just_a_test\": \"test_stuff\"}") == "{\"notification_sent\":true}")  {
                 assertTrue("Successfully sent email notification.", true);
+            } else {
+                assertFalse("Failed to send email notification.", false);
             }
         } catch (IIOException e) {
-            assertTrue("Failed to send email notification.", true);
+            assertFalse("Failed to send email notification.", false);
         }
     }
 }
