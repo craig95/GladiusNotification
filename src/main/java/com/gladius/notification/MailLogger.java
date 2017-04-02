@@ -1,5 +1,5 @@
 package com.gladius.notification;
-
+//HD Haasbroek 15046657
 //JAVAC *.JAVA
 //en om te run:
 //java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 MailLogger
