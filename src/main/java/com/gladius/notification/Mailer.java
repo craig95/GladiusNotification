@@ -72,11 +72,10 @@ public class Mailer {
             message.setContent(content, "text/html");
             // Send message
             Transport.send(message);
-            MailLogger.logMailSent();
+            MailLogger.logMailSent(0, email, content);
             return true;
         } catch (MessagingException e) {
-            //throw new RuntimeException(e);
-            MailLogger.logMailError(e.toString());
+            MailLogger.logMailError(0, email, e.toString());
             return false;
         }
     }
