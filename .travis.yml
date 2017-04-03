@@ -1,4 +1,4 @@
 language: java
-
-mvn test -B
-mvn install -DskipTests=true -Dmaven.javadoc.skip=false -B -V
+sudo: false
+script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn clean verify
