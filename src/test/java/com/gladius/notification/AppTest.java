@@ -44,23 +44,23 @@ public class AppTest
             }
     }
 
-//    public void testEmptyEmail() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(1, "", "email"))  {
-//            fail("Empty message validation failed.");
-//        } else {
-//            assertTrue("Empty message succeeded.", true);
-//        }
-//    }
-//
-//    public void testNonExistingID() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(-1, "Test", "email"))  {
-//            fail("Non existing user validation failed.");
-//        } else {
-//            assertTrue("Non existing user validation succeeded.", true);
-//        }
-//    }
+    public void testEmptyEmail() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "email"))  {
+            fail("Empty message validation failed.");
+        } else {
+            assertTrue("Empty message succeeded.", true);
+        }
+    }
+
+    public void testNonExistingID() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(-1, "Test", "email"))  {
+            fail("Non existing user validation failed.");
+        } else {
+            assertTrue("Non existing user validation succeeded.", true);
+        }
+    }
 
     public void testNonExistingNotificationType() {
         NotificationInterface notification = NotificationInterface.getInstance();
