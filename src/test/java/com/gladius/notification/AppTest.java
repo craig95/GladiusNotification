@@ -1,5 +1,6 @@
 package com.gladius.notification;
 
+import com.sun.nio.sctp.NotificationHandler;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -34,14 +35,39 @@ public class AppTest
     /**
      * Rigourous Test :-)
      */
-    public void testSendEmail() throws IOException{
-        NotificationHandler notificationHandler = new NotificationHandler();
-        try {
-            if (notificationHandler.sendNotification("{\"just_a_test\": \"test_stuff\"}") == "{\"notification_sent\":true}")  {
+    public void testBasicSendEmail() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+            if (notification.sendNotification(1, "Hello World Notification", "email"))  {
                 assertTrue("Successfully sent email notification.", true);
+            } else {
+                fail("Failed to send email notification.");
             }
-        } catch (IIOException e) {
-            assertTrue("Failed to send email notification.", true);
+    }
+
+//    public void testEmptyEmail() {
+//        NotificationInterface notification = NotificationInterface.getInstance();
+//        if (notification.sendNotification(1, "", "email"))  {
+//            fail("Empty message validation failed.");
+//        } else {
+//            assertTrue("Empty message succeeded.", true);
+//        }
+//    }
+//
+//    public void testNonExistingID() {
+//        NotificationInterface notification = NotificationInterface.getInstance();
+//        if (notification.sendNotification(-1, "Test", "email"))  {
+//            fail("Non existing user validation failed.");
+//        } else {
+//            assertTrue("Non existing user validation succeeded.", true);
+//        }
+//    }
+
+    public void testNonExistingNotificationType() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "Test", "blah"))  {
+            fail("Non existing notification type validation failed.");
+        } else {
+            assertTrue("Non existing notification type validation succeeded.", true);
         }
     }
 }

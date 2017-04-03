@@ -22,7 +22,6 @@ public class Mailer {
     private String password;
     private Properties props;
     private Session session;
-    private MailLogger mailLogger;
 
     /**
      * Constructor
@@ -55,7 +54,6 @@ public class Mailer {
             session = Session.getInstance(props);
         }
 
-        mailLogger = new MailLogger();
     }
 
     /**
@@ -74,11 +72,10 @@ public class Mailer {
             message.setContent(content, "text/html");
             // Send message
             Transport.send(message);
-            mailLogger.logMailSent();
+            MailLogger.logMailSent(0, email, content);
             return true;
         } catch (MessagingException e) {
-            //throw new RuntimeException(e);
-            mailLogger.logMailError(e.toString());
+            MailLogger.logMailError(0, email, e.toString());
             return false;
         }
     }
