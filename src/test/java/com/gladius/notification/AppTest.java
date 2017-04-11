@@ -37,11 +37,20 @@ public class AppTest
      */
     public void testBasicSendEmail() {
         NotificationInterface notification = NotificationInterface.getInstance();
-            if (notification.sendNotification(1, "Hello World Notification", "email"))  {
+            if (notification.sendNotification(1, "<h1>Hello World Notification</h1><br><p>This is a hello world test email.</p>", "email"))  {
                 assertTrue("Successfully sent email notification.", true);
             } else {
                 fail("Failed to send email notification.");
             }
+    }
+
+    public void testBasicSendSMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "Hello World SMS!", "sms"))  {
+            assertTrue("Successfully sent sms notification.", true);
+        } else {
+            fail("Failed to send email notification.");
+        }
     }
 
 //    public void testEmptyEmail() {
@@ -64,7 +73,7 @@ public class AppTest
 
     public void testNonExistingNotificationType() {
         NotificationInterface notification = NotificationInterface.getInstance();
-        if (notification.sendNotification(1, "Test", "blah"))  {
+        if (notification.sendNotification(1, "<h1>Message Heading</h1>", "blah"))  {
             fail("Non existing notification type validation failed.");
         } else {
             assertTrue("Non existing notification type validation succeeded.", true);

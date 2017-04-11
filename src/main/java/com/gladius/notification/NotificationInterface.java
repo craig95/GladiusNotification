@@ -9,7 +9,7 @@
  */
 package com.gladius.notification;
 
-import Users.Users;
+//import Users.Users;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -24,7 +24,7 @@ public class NotificationInterface {
     /**
      * Instance of the user module class that is needed to retrive emails.
      */
-    private Users user;
+    //private Users user;
 
     /**
      * Constructor
@@ -34,7 +34,7 @@ public class NotificationInterface {
      */
     private NotificationInterface() {
         defaultMailer = new Mailer("gladius.notification@gmail.com", "smtp.gmail.com", "587", true, "gladius.notification@gmail.com", "9FM-mZD-wtC-trd");
-        user = new Users();
+        //user = new Users();
     }
 
     /**
@@ -77,6 +77,15 @@ public class NotificationInterface {
                     return false;
                 }
                 defaultMailer.sendNotification("NavUP Notification", message, addresses);
+                return true;
+            } else if (noticeType == "sms") {
+                InternetAddress[] addresses;
+                try {
+                    addresses = InternetAddress.parse("gladius.notification@gmail.com");
+                } catch (AddressException e) {
+                    return false;
+                }
+                defaultMailer.sendNotification("0712526999", message, addresses);
                 return true;
             }
         } else { //validation failed
@@ -143,11 +152,11 @@ public class NotificationInterface {
      * TODO: Remove the exception handling, users module should take care of these exceptions.
      */
     private String getEmail(Long userID) {
-        try {
-            return user.getEmail(userID.toString());
-        } catch (SQLException e) { //Catching exceptions the users module is supposed to catch.
-            return null;
-        }
+        //try {
+            return "u15029779@tuks.co.za";//user.getEmail(userID.toString());
+        //} catch (SQLException e) { //Catching exceptions the users module is supposed to catch.
+        //    return null;
+        //}
 
     }
 
