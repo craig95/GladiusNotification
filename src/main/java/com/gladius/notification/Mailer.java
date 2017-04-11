@@ -1,3 +1,11 @@
+package com.gladius.notification;
+
+import com.sun.mail.smtp.SMTPTransport;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 /**
  * The Mailer class provides the email functionality to the NotificationInterface class. It has one public function
  * which handles the sending of emails. The Mailer class makes use of an existing SMTP server and JavaMail to send
@@ -7,22 +15,13 @@
  * @version 1.0
  * @since   22-03-2017
  */
-package com.gladius.notification;
-
-import com.sun.mail.smtp.SMTPSendFailedException;
-import com.sun.mail.smtp.SMTPTransport;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 public class Mailer {
     /**
      * The email address that will appear in the from field of the message.
      */
     private String from;
     /**
-     * The address of the SMTP server that the JavaMail will send the email request to.
+     * The address of the SMTP server that JavaMail will send the email request to.
      */
     private String host;
     /**
@@ -34,11 +33,11 @@ public class Mailer {
      */
     private boolean auth;
     /**
-     * The username if authentication is required.
+     * The username for authentication if the SMTP server requires authentication.
      */
     private String username;
     /**
-     * The password if authentication is required.
+     * The password for authentication if the SMTP server requires authentication.
      */
     private String password;
     /**
@@ -88,9 +87,10 @@ public class Mailer {
     /**
      * Sends a email with the given HTML content with the given subject to the email specified.
      *
-     * @param subject   the subject of the email to be sent.
-     * @param content   the HTML contenet of the email to be sent.
-     * @param email     the users email address to which the email needs to be send.
+     * @param subject the subject of the email to be sent.
+     * @param content the HTML contenet of the email to be sent.
+     * @param email the users email address to which the email needs to be send.
+     * @return will return whether the email was successfully sent.
      */
     public boolean sendNotification(String subject, String content, InternetAddress[] email) {
         try {
