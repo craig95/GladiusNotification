@@ -43,7 +43,24 @@ public class NotificationInterface {
      * Private constructor for the Notification class. The private constructor prevents instantiation from other
      * classes (Singleton Design Pattern).
      */
+    /*
+     * TODO: Read all the config vars from a file.
+     */
     private NotificationInterface() {
+        SMS_From = "gladius.notification@gmail.com";
+        SMS_SMTPHost = "smtp.gmail.com";
+        SMS_SMTPPort = "587";
+        SMS_SMTPAuth = true;
+        SMS_SMTPAuthUsername = "gladius.notification@gmail.com";
+        SMS_SMTPAuthPassword = "9FM-mZD-wtC-trd";
+        Email_to_SMS_API_Domain = "nodomain.no";
+
+        Email_From = "gladius.notification@gmail.com";;
+        Email_SMTPHost = "smtp.gmail.com";;
+        Email_SMTPPort = "587";
+        Email_SMTPAuth = true;
+        Email_SMTPAuthUsername = "gladius.notification@gmail.com";
+        Email_SMTPAuthPassword = "9FM-mZD-wtC-trd";
         //user = new Users();
     }
 
@@ -99,6 +116,7 @@ public class NotificationInterface {
                 }
                 SMSerThread smserThread = new SMSerThread("NavUP Notification", message, addresses);
                 smserThread.run();
+                return true;
             }
         } else { //validation failed
             return false;
@@ -221,7 +239,7 @@ public class NotificationInterface {
 
         public void run() {
             //smser.sendNotification(subject, message, addresses);
-            //Will need adapter to work with RaspSMS
+            RaspSMSAdapter.raspSMSAdapter(smser, subject, message, addresses);
         }
     }
 }

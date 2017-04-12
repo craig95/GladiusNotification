@@ -9,7 +9,7 @@ import javax.imageio.IIOException;
 import java.io.IOException;
 
 /**
- * Unit test for simple App.
+ * Unit test for GladiOS Notification Module.
  */
 public class AppTest 
     extends TestCase
@@ -32,10 +32,7 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testBasicSendEmail() {
+    public void testBasicSend_Email() {
         NotificationInterface notification = NotificationInterface.getInstance();
             if (notification.sendNotification(1, "<h1>Hello World Notification</h1><br><p>This is a hello world test email.</p>", "email"))  {
                 assertTrue("Successfully sent email notification.", true);
@@ -44,36 +41,56 @@ public class AppTest
             }
     }
 
-    public void testBasicSendSMS() {
+    public void testBasicSend_SMS() {
         NotificationInterface notification = NotificationInterface.getInstance();
         if (notification.sendNotification(1, "Hello World SMS!", "sms"))  {
             assertTrue("Successfully sent sms notification.", true);
         } else {
-            fail("Failed to send email notification.");
+            fail("Failed to send sms notification.");
         }
     }
 
-//    public void testEmptyEmail() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(1, "", "email"))  {
-//            fail("Empty message validation failed.");
-//        } else {
-//            assertTrue("Empty message succeeded.", true);
-//        }
-//    }
-//
-//    public void testNonExistingID() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(-1, "Test", "email"))  {
-//            fail("Non existing user validation failed.");
-//        } else {
-//            assertTrue("Non existing user validation succeeded.", true);
-//        }
-//    }
+
+
+    public void testEmptyMessage_Email() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "email"))  {
+            fail("Empty email message validation failed.");
+        } else {
+            assertTrue("Empty email message check succeeded.", true);
+        }
+    }
+
+    public void testEmptyMessage_SMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "sms"))  {
+            fail("Empty SMS message validation failed.");
+        } else {
+            assertTrue("Empty SMS message validation succeeded.", true);
+        }
+    }
+
+    public void testNonExistingID_Email() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(-1, "Test Non existing email address.", "email"))  {
+            fail("Non existing user validation failed (email).");
+        } else {
+            assertTrue("Non existing user validation succeeded (email).", true);
+        }
+    }
+
+    public void testNonExistingID_SMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(-1, "Test non existing phone number", "sms"))  {
+            fail("Non existing user validation failed (SMS).");
+        } else {
+            assertTrue("Non existing user validation succeeded (SMS).", true);
+        }
+    }
 
     public void testNonExistingNotificationType() {
         NotificationInterface notification = NotificationInterface.getInstance();
-        if (notification.sendNotification(1, "<h1>Message Heading</h1>", "blah"))  {
+        if (notification.sendNotification(1, "Message Heading", "blah"))  {
             fail("Non existing notification type validation failed.");
         } else {
             assertTrue("Non existing notification type validation succeeded.", true);
