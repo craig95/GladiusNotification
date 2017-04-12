@@ -5,9 +5,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import javax.imageio.IIOException;
-import java.io.IOException;
-
 /**
  * Unit test for GladiOS Notification Module.
  */
@@ -46,11 +43,9 @@ public class AppTest
         if (notification.sendNotification(1, "Hello World SMS!", "sms"))  {
             assertTrue("Successfully sent sms notification.", true);
         } else {
-            fail("Failed to send sms notification.");
+            fail("Failed to send email notification.");
         }
     }
-
-
 
     public void testEmptyMessage_Email() {
         NotificationInterface notification = NotificationInterface.getInstance();

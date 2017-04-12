@@ -55,8 +55,8 @@ public class NotificationInterface {
         SMS_SMTPAuthPassword = "9FM-mZD-wtC-trd";
         Email_to_SMS_API_Domain = "nodomain.no";
 
-        Email_From = "gladius.notification@gmail.com";;
-        Email_SMTPHost = "smtp.gmail.com";;
+        Email_From = "gladius.notification@gmail.com";
+        Email_SMTPHost = "smtp.gmail.com";
         Email_SMTPPort = "587";
         Email_SMTPAuth = true;
         Email_SMTPAuthUsername = "gladius.notification@gmail.com";

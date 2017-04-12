@@ -1,13 +1,5 @@
 package com.gladius.notification;
-//HD Haasbroek 15046657
-//JAVAC *.JAVA
-//en om te run:
-//java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 MailLogger
-//maar mens run net die class wat die fucntions call tho, so
-//maak dit java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 "callerClass"
-//RUN EERS DIE PostgreSQLJDBC om die tables te create op die machine
-//createdb -h localhost -p 5432 -U postgres dbname 
-//in bin folder van postgressql
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
