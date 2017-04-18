@@ -74,7 +74,8 @@ public class NotificationInterface {
 	SMS_SMTPAuthPassword = json.getString( "SMS_SMTPAuthPassword" );
         Email_to_SMS_API_Domain = json.getString( "Email_to_SMS_API_Domain" );
 	    
-	
+	Email_From = json.getString( "Email_From" );
+        Email_SMTPHost = json.getString( "Email_SMTPHost" );
 	
     }
 
