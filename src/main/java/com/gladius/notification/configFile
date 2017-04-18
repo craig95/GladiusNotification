@@ -4,3 +4,5 @@
 'SMS_SMTPAuth':'true',
 'SMS_SMTPAuthUsername':'gladius.notification@gmail.com',
 'SMS_SMTPAuthPassword':'9FM-mZD-wtC-trd',
+'Email_to_SMS_API_Domain':'nodomain.no',
+'Email_From':'gladius.notification@gmail.com',
