@@ -165,15 +165,15 @@ public class NotificationInterface {
      */
     private String validate(ArrayList<Long> userIDs, String message, String noticeType) {
         if(message == null || message == "")
-            return "invalid";
+            return "invalid notification";
         if (userIDs == null || userIDs.isEmpty())
-            return "invalid";
+            return "invalid  notification";
         if (noticeType != null)
             if(!(noticeType == "email" || noticeType == "sms" || noticeType == "push"))
-               return "invalid";
+               return "invalid notification";
         else
-            return "invalid";
-        return "valid";
+            return "invalid notification";
+        return "valid notification";
     }
 
     /**
