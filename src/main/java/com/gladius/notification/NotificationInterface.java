@@ -67,6 +67,8 @@ public class NotificationInterface {
 	JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
 
         SMS_From = json.getString( "SMS_From" );
+	SMS_SMTPHost = json.getString( "SMS_SMTPHost" );
+        SMS_SMTPPort =  json.getInt( "SMS_SMTPPort" );
 	
     }
 
