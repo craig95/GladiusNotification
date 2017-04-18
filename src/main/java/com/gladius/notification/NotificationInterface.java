@@ -47,7 +47,7 @@ public class NotificationInterface {
      * TODO: Read all the config vars from a file.
      */
     private NotificationInterface() {
-        SMS_From = "gladius.notification@gmail.com";
+        /*SMS_From = "gladius.notification@gmail.com";
         SMS_SMTPHost = "smtp.gmail.com";
         SMS_SMTPPort = "587";
         SMS_SMTPAuth = true;
@@ -60,8 +60,27 @@ public class NotificationInterface {
         Email_SMTPPort = "587";
         Email_SMTPAuth = true;
         Email_SMTPAuthUsername = "gladius.notification@gmail.com";
-        Email_SMTPAuthPassword = "9FM-mZD-wtC-trd";
+        Email_SMTPAuthPassword = "9FM-mZD-wtC-trd";*/
         //user = new Users();
+	InputStream is = NotificationInterface.class.getResourceAsStream( "configuration.txt");
+        String jsonTxt = IOUtils.toString( is );
+	JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
+
+        SMS_From = json.getString( "SMS_From" );
+	SMS_SMTPHost = json.getString( "SMS_SMTPHost" );
+        SMS_SMTPPort =  json.getInt( "SMS_SMTPPort" );
+	SMS_SMTPAuth = json.getString( "SMS_SMTPAuth" );
+        SMS_SMTPAuthUsername = json.getString( "SMS_SMTPAuthUsername" );
+	SMS_SMTPAuthPassword = json.getString( "SMS_SMTPAuthPassword" );
+        Email_to_SMS_API_Domain = json.getString( "Email_to_SMS_API_Domain" );
+	    
+	Email_From = json.getString( "Email_From" );
+        Email_SMTPHost = json.getString( "Email_SMTPHost" );
+	Email_SMTPPort = json.getInt( "Email_SMTPPort" );
+        Email_SMTPAuth = json.getString( "Email_SMTPAuth" );
+	Email_SMTPAuthUsername = json.getString( "Email_SMTPAuthUsername" );
+        Email_SMTPAuthPassword = json.getString( "Email_SMTPAuthPassword" );
+	
     }
 
     /**
@@ -93,7 +112,7 @@ public class NotificationInterface {
      * TODO: This function should simply create an ArrayList of one user and then call the other senNotification function and return the result that that function returns.
      */
     public boolean sendNotification(long userID, String message, String noticeType) {
-        ArrayList<Long> tempArray = new ArrayList<Long>();
+        /*ArrayList<Long> tempArray = new ArrayList<Long>();
         tempArray.add(userID);
         String valid = validate(tempArray, message, noticeType);
         if (valid == "valid") { //validation succeeded
@@ -121,7 +140,13 @@ public class NotificationInterface {
         } else { //validation failed
             return false;
         }
-        return false;
+        return false;*/
+        
+        ArrayList<Long> tempArray = new ArrayList<Long>();
+        tempArray.add(userID);
+		return sendNotification(tempArray, message, noticeType);
+       
+        
     }
 
     /**
