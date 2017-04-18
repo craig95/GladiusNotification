@@ -1,2 +1,4 @@
 {'SMS_From':'gladius.notification@gmail.com',
 'SMS_SMTPHost':'smtp.gmail.com',
+'SMS_SMTPPort':'587',
+'SMS_SMTPAuth':'true',
