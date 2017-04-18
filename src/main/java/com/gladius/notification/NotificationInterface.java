@@ -93,7 +93,7 @@ public class NotificationInterface {
      * TODO: This function should simply create an ArrayList of one user and then call the other senNotification function and return the result that that function returns.
      */
     public boolean sendNotification(long userID, String message, String noticeType) {
-        ArrayList<Long> tempArray = new ArrayList<Long>();
+        /*ArrayList<Long> tempArray = new ArrayList<Long>();
         tempArray.add(userID);
         String valid = validate(tempArray, message, noticeType);
         if (valid == "valid") { //validation succeeded
@@ -121,7 +121,10 @@ public class NotificationInterface {
         } else { //validation failed
             return false;
         }
-        return false;
+        return false;*/
+        
+        ArrayList<Long> tempArray = new ArrayList<Long>();
+        
     }
 
     /**
