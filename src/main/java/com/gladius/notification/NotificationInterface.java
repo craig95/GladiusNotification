@@ -71,6 +71,10 @@ public class NotificationInterface {
         SMS_SMTPPort =  json.getInt( "SMS_SMTPPort" );
 	SMS_SMTPAuth = json.getString( "SMS_SMTPAuth" );
         SMS_SMTPAuthUsername = json.getString( "SMS_SMTPAuthUsername" );
+	SMS_SMTPAuthPassword = json.getString( "SMS_SMTPAuthPassword" );
+        Email_to_SMS_API_Domain = json.getString( "Email_to_SMS_API_Domain" );
+	    
+	
 	
     }
 
