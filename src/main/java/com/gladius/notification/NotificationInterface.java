@@ -164,11 +164,14 @@ public class NotificationInterface {
      * TODO: message validation, the message should not be empty.
      */
     private String validate(ArrayList<Long> userIDs, String message, String noticeType) {
-        if(message == "")
+        if(message == null || message == "")
             return "invalid";
-        if (userIDs.isEmpty())
+        if (userIDs == null || userIDs.isEmpty())
             return "invalid";
-        if(!(noticeType == "email" || noticeType == "sms" || noticeType == "push"))
+        if (noticeType != null)
+            if(!(noticeType == "email" || noticeType == "sms" || noticeType == "push"))
+               return "invalid";
+        else
             return "invalid";
         return "valid";
     }
