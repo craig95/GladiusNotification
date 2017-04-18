@@ -64,6 +64,9 @@ public class NotificationInterface {
         //user = new Users();
 	InputStream is = NotificationInterface.class.getResourceAsStream( "configuration.txt");
         String jsonTxt = IOUtils.toString( is );
+	JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
+
+        SMS_From = json.getString( "SMS_From" );
 	
     }
 
