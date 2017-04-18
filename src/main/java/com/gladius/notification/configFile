@@ -2,3 +2,5 @@
 'SMS_SMTPHost':'smtp.gmail.com',
 'SMS_SMTPPort':'587',
 'SMS_SMTPAuth':'true',
+'SMS_SMTPAuthUsername':'gladius.notification@gmail.com',
+'SMS_SMTPAuthPassword':'9FM-mZD-wtC-trd',
