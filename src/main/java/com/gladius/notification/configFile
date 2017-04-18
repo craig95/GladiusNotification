@@ -10,3 +10,5 @@
 'Email_SMTPPort':'587',
 'Email_SMTPAuth':'true',
 'Email_SMTPAuthUsername':'gladius.notification@gmail.com',
+'Email_SMTPAuthPassword':'9FM-mZD-wtC-trd'
+}
