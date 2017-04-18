@@ -125,6 +125,8 @@ public class NotificationInterface {
         
         ArrayList<Long> tempArray = new ArrayList<Long>();
         tempArray.add(userID);
+		return sendNotification(tempArray, message, noticeType);
+       
         
     }
 
