@@ -69,6 +69,8 @@ public class NotificationInterface {
         SMS_From = json.getString( "SMS_From" );
 	SMS_SMTPHost = json.getString( "SMS_SMTPHost" );
         SMS_SMTPPort =  json.getInt( "SMS_SMTPPort" );
+	SMS_SMTPAuth = json.getString( "SMS_SMTPAuth" );
+        SMS_SMTPAuthUsername = json.getString( "SMS_SMTPAuthUsername" );
 	
     }
 
