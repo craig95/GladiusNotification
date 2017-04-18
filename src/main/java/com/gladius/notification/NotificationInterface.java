@@ -76,6 +76,8 @@ public class NotificationInterface {
 	    
 	Email_From = json.getString( "Email_From" );
         Email_SMTPHost = json.getString( "Email_SMTPHost" );
+	Email_SMTPPort = json.getInt( "Email_SMTPPort" );
+        Email_SMTPAuth = json.getString( "Email_SMTPAuth" );
 	
     }
 
