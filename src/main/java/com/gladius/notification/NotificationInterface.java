@@ -47,7 +47,7 @@ public class NotificationInterface {
      * TODO: Read all the config vars from a file.
      */
     private NotificationInterface() {
-        SMS_From = "gladius.notification@gmail.com";
+        /*SMS_From = "gladius.notification@gmail.com";
         SMS_SMTPHost = "smtp.gmail.com";
         SMS_SMTPPort = "587";
         SMS_SMTPAuth = true;
@@ -60,8 +60,11 @@ public class NotificationInterface {
         Email_SMTPPort = "587";
         Email_SMTPAuth = true;
         Email_SMTPAuthUsername = "gladius.notification@gmail.com";
-        Email_SMTPAuthPassword = "9FM-mZD-wtC-trd";
+        Email_SMTPAuthPassword = "9FM-mZD-wtC-trd";*/
         //user = new Users();
+	InputStream is = NotificationInterface.class.getResourceAsStream( "configuration.txt");
+        String jsonTxt = IOUtils.toString( is );
+	
     }
 
     /**
