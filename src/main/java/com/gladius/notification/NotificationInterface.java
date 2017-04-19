@@ -152,16 +152,19 @@ public class NotificationInterface {
      */
    public boolean sendNotification(ArrayList<Long> userIDs, String message, String noticeType) {
         /*Validate the paramaters*/
-        ArrayList<Long> tempArray = new ArrayList<Long>();
-        tempArray.add(userID);
         String valid = validate(userIDs, message, noticeType);
         if (valid == "valid notification") { //validation succeeded
             if (noticeType == "email") {
-                InternetAddress[] addresses;
-                try {
-                    addresses.addRecipients(Message.RecipientType.CC, userIDs);
+                InternetAddress[] addresses = new InternetAddress[userIDs.size()];
+                String tempString = "";
+                try
+                {
+                    for(int i = 0; i < userIDs.size(); i++)
+                    {
+                        addresses[i] = InternetAddress.parse(getEmail(userIDs.get(i)));
+                    }
                 } 
-                catch (AddressException e) {
+                catch (Exception e) {
                     return false;
                 }
                 EmailerThread emailerThread = new EmailerThread("NavUP Notification", message, addresses);
@@ -169,11 +172,15 @@ public class NotificationInterface {
                 return true;
             } 
             else if (noticeType == "sms") {
-                InternetAddress[] addresses;
-                try {
-                    addresses = InternetAddress.parse("gladius.notification@gmail.com");
-                } 
-                catch (AddressException e) {
+                InternetAddress[] addresses = new InternetAddress[userIDs.size()];
+                try
+                {
+                  for(int i = 0; i < userIDs.size(); i++)
+                  {
+                      addresses[i] = InternetAddress.parse(userIDs.get(i) + "@" + Email_to_SMS_API_Domain);
+                  }
+                }
+                catch (Exception e) {
                     return false;
                 }
                 SMSerThread smserThread = new SMSerThread("NavUP Notification", message, addresses);
