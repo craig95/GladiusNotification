@@ -12,9 +12,10 @@ package com.gladius.notification;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+*/
 public class MailLogger{
 
-*/	public void logMailSent(int fid,String femail,String fmessage) {/*
+	public static void logMailSent(int fid,String femail,String fmessage) {/*
 	   Connection c = null;
       Statement stmt = null;
       String email = femail;
@@ -74,7 +75,7 @@ public class MailLogger{
        }
 */
 	}
-	public  void logMailError(int fid,String femail,String fmessage) {/*
+	public  static void logMailError(int fid,String femail,String fmessage) {/*
 		//Log the errors incase any occur
 	  Connection c = null;
       Statement stmt = null;
@@ -195,5 +196,5 @@ public class MailLogger{
        */
   }
 }
-*/
+
 
