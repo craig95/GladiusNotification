@@ -77,8 +77,39 @@ public class NotificationInterface {
      *
      * @return will return true if the message was successfully sent and false if message failed to send.
      */
-    public boolean sendNotification(ArrayList<Long> userIDs, String message, String noticeType) {
-
+   public boolean sendNotification(ArrayList<Long> userIDs, String message, String noticeType) {
+        /*Validate the paramaters*/
+        ArrayList<Long> tempArray = new ArrayList<Long>();
+        tempArray.add(userID);
+        String valid = validate(userIDs, message, noticeType);
+        if (valid == "valid notification") { //validation succeeded
+            if (noticeType == "email") {
+                InternetAddress[] addresses;
+                try {
+                    addresses.addRecipients(Message.RecipientType.CC, userIDs);
+                } 
+                catch (AddressException e) {
+                    return false;
+                }
+                EmailerThread emailerThread = new EmailerThread("NavUP Notification", message, addresses);
+                emailerThread.run();
+                return true;
+            } 
+            else if (noticeType == "sms") {
+                InternetAddress[] addresses;
+                try {
+                    addresses = InternetAddress.parse("gladius.notification@gmail.com");
+                } 
+                catch (AddressException e) {
+                    return false;
+                }
+                SMSerThread smserThread = new SMSerThread("NavUP Notification", message, addresses);
+                smserThread.run();
+                return true;
+            }
+        } else { //validation failed
+            return false;
+        }
         return false;
     }
 
