@@ -1,13 +1,9 @@
 package com.gladius.notification;
 
 //import Users.Users;
-
 import net.sf.json.*;
 import org.apache.commons.io.IOUtils;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,31 +19,67 @@ import java.util.ArrayList;
  */
 public class NotificationInterface {
     /**
-     * Instance of the user module class that is needed to retrive emails.
+     * Instance of the user module class that is needed to retrieve emails.
      */
     //private Users user;
     /**
-     *
+     * The email from wich the Email to SMS API expects to recive emails.
      */
     private String SMS_From;
+    /**
+     * The SMTP server URL that will handle the emails for the Email to SMS Api.
+     */
     private String SMS_SMTPHost;
+    /**
+     * The SMTP server port that will handle the emails for the Email to SMS Api.
+     */
     private String SMS_SMTPPort;
+    /**
+     * Indicates if the SMTP server requires authentication that will handle the emails for the Email to SMS Api.
+     */
     private boolean SMS_SMTPAuth;
+    /**
+     * Username for SMTP server that will handle the emails for the Email to SMS Api.
+     */
     private String SMS_SMTPAuthUsername;
+    /**
+     * Password for SMTP server that will handle the emails for the Email to SMS Api.
+     */
     private String SMS_SMTPAuthPassword;
+    /**
+     * The domain of the Email to SMS API.
+     */
     private String Email_to_SMS_API_Domain;
 
+    /**
+     * The email from which the email notifications will be sent.
+     */
     private String Email_From;
+    /**
+     * The SMTP server URL that will handle the email notification sending.
+     */
     private String Email_SMTPHost;
+    /**
+     * The SMTP server port that will handle the email notification sending.
+     */
     private String Email_SMTPPort;
+    /**
+     * Indicates if the SMTP server requires authentication that will handle the email notification sending.
+     */
     private boolean Email_SMTPAuth;
+    /**
+     * Username for SMTP server that will handle the email notification sending.
+     */
     private String Email_SMTPAuthUsername;
+    /**
+     * Password for SMTP server that will handle the email notification sending.
+     */
     private String Email_SMTPAuthPassword;
     /**
      * Constructor
      *
      * Private constructor for the Notification class. The private constructor prevents instantiation from other
-     * classes (Singleton Design Pattern).
+     * classes (Singleton Design Pattern). It will read in all the needed variables from the config file.
      */
     private NotificationInterface() {
         //user = new Users();
@@ -102,45 +134,10 @@ public class NotificationInterface {
      * @param noticeType the type of notification sms(to be determined), email or push notification.
      * @return will return true if the message was successfully sent and false if message failed to send.
      */
-    /*
-     * TODO: This function should simply create an ArrayList of one user and then call the other senNotification function and return the result that that function returns.
-     */
     public boolean sendNotification(long userID, String message, String noticeType) {
         ArrayList<Long> tempArray = new ArrayList<Long>();
         tempArray.add(userID);
-        String valid = validate(tempArray, message, noticeType);
-        if (valid == "valid notification") { //validation succeeded
-            if (noticeType == "email") {
-                InternetAddress[] addresses;
-                try {
-                    addresses = InternetAddress.parse(getEmail(userID));
-                } catch (AddressException e) {
-                    return false;
-                }
-                EmailerThread emailerThread = new EmailerThread("NavUP Notification", message, addresses);
-                emailerThread.run();
-                return true;
-            } else if (noticeType == "sms") {
-                InternetAddress[] addresses;
-                try {
-                    addresses = InternetAddress.parse("0712526999" + "@" +Email_to_SMS_API_Domain);
-                } catch (AddressException e) {
-                    return false;
-                }
-                SMSerThread smserThread = new SMSerThread("NavUP Notification", message, addresses);
-                smserThread.run();
-                return true;
-            }
-        } else { //validation failed
-            return false;
-        }
-        return false;
-
-//        ArrayList<Long> tempArray = new ArrayList<Long>();
-//        tempArray.add(userID);
-//		return sendNotification(tempArray, message, noticeType);
-       
-        
+		return sendNotification(tempArray, message, noticeType);
     }
 
     /**
@@ -161,7 +158,8 @@ public class NotificationInterface {
                 {
                     for(int i = 0; i < userIDs.size(); i++)
                     {
-                        addresses[i] = InternetAddress.parse(getEmail(userIDs.get(i)));
+                        InternetAddress[] tempAddress = InternetAddress.parse(getEmail(userIDs.get(i)));
+                        addresses[i] = tempAddress[0];
                     }
                 } 
                 catch (Exception e) {
@@ -177,7 +175,12 @@ public class NotificationInterface {
                 {
                   for(int i = 0; i < userIDs.size(); i++)
                   {
-                      addresses[i] = InternetAddress.parse(userIDs.get(i) + "@" + Email_to_SMS_API_Domain);
+                      String tempNumber = getNumber(userIDs.get(i));
+                      if (tempNumber == null) {
+                          return false;
+                      }
+                      InternetAddress[] tempAddress = InternetAddress.parse( tempNumber + "@" + Email_to_SMS_API_Domain);
+                      addresses[i] = tempAddress[0];
                   }
                 }
                 catch (Exception e) {
@@ -185,6 +188,12 @@ public class NotificationInterface {
                 }
                 SMSerThread smserThread = new SMSerThread("NavUP Notification", message, addresses);
                 smserThread.run();
+                return true;
+            }
+            else if (noticeType == "push") {
+                String json_string = "{'message':'" + message + "'}";
+                PusherThread pusherThread = new PusherThread(userIDs, json_string);
+                pusherThread.run();
                 return true;
             }
         } else { //validation failed
@@ -221,17 +230,14 @@ public class NotificationInterface {
      * @param userID the ID of the user whose email is needed.
      * @return returns a string containing a users email if found or null if the user's email could not be found.
      */
-    /*
-     * TODO: This function should return a email given a userID, this function should query the users module for this information.
-     * TODO: Wait for users module to write a proper interface.
-     * TODO: Remove the exception handling, users module should take care of these exceptions.
-     */
     private String getEmail(Long userID) {
-        //try {
-            return "u15029779@tuks.co.za";//user.getEmail(userID.toString());
-        //} catch (SQLException e) { //Catching exceptions the users module is supposed to catch.
-        //    return null;
-        //}
+        if (userID == 1) {
+            return "u15029779@tuks.co.za";
+        } else if (userID == 2) {
+            return "u15059538@tuks.co.za";
+        } else {
+            return null;
+        }
 
     }
 
@@ -242,19 +248,42 @@ public class NotificationInterface {
      * @return returns a string containing a users phone number if found or null if the user's phone number could not
      * be found.
      */
-    /*
-     * TODO: This function should return a phone number given a userID, this function should query the users module for this information.
-     * TODO: Wait for users module to write a proper interface.
-     */
     private String getNumber(Long userID) {
-        return null;
+        if (userID == 1) {
+            return "0712526999";
+        } else if (userID == 2) {
+            return "0737147635";
+        } else {
+            return null;
+        }
     }
 
+    /**
+     * Private class that handles email sending. It will create a new Mailer object and use it to send emails.
+     */
     private class EmailerThread implements Runnable {
+        /**
+         * Email subject.
+         */
         String subject;
+        /**
+         * The content of the message to be sent.
+         */
         String content;
+        /**
+         * The email addresses stored in an array as InternetAddresses.
+         */
         InternetAddress[] addresses;
+        /**
+         * The mailer object that will send the email/s.
+         */
         Mailer mailer;
+        /**
+         * Constructor
+         *
+         * This is the constructor for the EmailerThread. It initializes all the class variables with the given
+         * parameters.
+         */
         EmailerThread(String _subject, String _content,  InternetAddress[] _addresses) {
             subject = _subject;
             content = _content;
@@ -262,16 +291,42 @@ public class NotificationInterface {
             mailer = new Mailer(Email_From, Email_SMTPHost, Email_SMTPPort, Email_SMTPAuth, Email_SMTPAuthUsername, Email_SMTPAuthPassword);
         }
 
+        /**
+         * The EmailerThread's run method. It will simply call the sendNotification function of the Mailer class.
+         */
         public void run() {
             mailer.sendNotification(subject, content, addresses);
         }
     }
 
+    /**
+     * Private class that handles SMS sending. It will create a new Mailer object and use it to send emails to the Email
+     * to SMS API.
+     */
     private class SMSerThread implements Runnable {
+        /**
+         * SMS subject.
+         */
         String subject;
+        /**
+         * The content of the message to be sent.
+         */
         String message;
+        /**
+         * The email addresses stored in an array as InternetAddresses. These email addresses are in the format
+         * "xxxxxxxxxx@<Email_to_SMS_API_Domain>", this format is required by most Email to SMS APIs.
+         */
         InternetAddress[] addresses;
+        /**
+         * The mailer object that will send the email/s to the Email to SMS API.
+         */
         Mailer smser;
+        /**
+         * Constructor
+         *
+         * This is the constructor for the SMSerThread. It initializes all the class variables with the given
+         * parameters.
+         */
         public SMSerThread(String _subject, String _message, InternetAddress[] _addresses) {
             subject = _subject;
             message = _message;
@@ -279,9 +334,31 @@ public class NotificationInterface {
             smser = new Mailer(SMS_From, SMS_SMTPHost, SMS_SMTPPort, SMS_SMTPAuth, SMS_SMTPAuthUsername, SMS_SMTPAuthPassword);
         }
 
+        /**
+         * The SMSerThread's run method. Because we have a custom Email to SMS API, we send the relevant data to an
+         * adapter wich converts the data to the way our custom API expects it.
+         */
         public void run() {
             //smser.sendNotification(subject, message, addresses);
             RaspSMSAdapter.raspSMSAdapter(smser, subject, message, addresses);
+        }
+    }
+
+    /**
+     * Private class that handles Push Notifications. If the server supports it.
+     */
+    private class PusherThread implements Runnable {
+        ArrayList<Long> userIDs;
+        String jsonString;
+        public PusherThread(ArrayList<Long> _userIDs, String _jsonString) {
+            userIDs = _userIDs;
+            jsonString = _jsonString;
+        }
+
+        public void run() {
+            for (Long userID : userIDs) {
+                //WebServer.sendPushNotification(userID, jsonString);
+            }
         }
     }
 }

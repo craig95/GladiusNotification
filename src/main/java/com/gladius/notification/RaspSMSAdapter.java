@@ -4,7 +4,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 /**
- * The RaspSMSAdapter is a adapter that adapts the expected input most email to SMS APIs expect and adapts it to be
+ * The RaspSMSAdapter is a adapter that adapts the expected input for most email to SMS APIs to be
  * compatible with our RaspSMS(Raspberry Pi SMS) email to SMS API. Our API expects the phone number to be in the
  * subject and the email be sent to gladius.notification@gmail.com.
  *

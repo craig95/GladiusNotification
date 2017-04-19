@@ -1,3 +1,4 @@
+package com.gladius.notification;
 import java.sql.*;
 //java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 PostgreSQLJDBC
 import java.sql.Connection;
