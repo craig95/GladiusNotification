@@ -15,8 +15,8 @@ import java.sql.ResultSet;
  * @since   22-03-2017
  */
 public class MailLogger{
-	final static String username = "GladiOSNotification";
-	final static String password = "123456789";
+	final static String username = "postgres";
+	final static String password = "";
 	/**
 	 * This function logs a successful email sent to the database.
 	 * @param femail The email address the email was sent to.

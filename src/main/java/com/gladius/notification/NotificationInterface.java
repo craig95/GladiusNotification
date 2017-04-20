@@ -358,7 +358,8 @@ public class NotificationInterface {
         public void run() {
             for (Long userID : userIDs) {
                 //WebServer.sendPushNotification(userID, jsonString);
-                MailLogger.logPushNotification(userID, jsonString);
+                JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonString);
+                MailLogger.logPushNotification(userID, json.getString("message"));
             }
         }
     }

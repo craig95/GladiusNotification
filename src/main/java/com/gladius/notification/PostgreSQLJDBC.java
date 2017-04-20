@@ -13,8 +13,8 @@ import java.sql.Statement;
  * @since   22-03-2017
  */
 public class PostgreSQLJDBC {
-  final static String username = "GladiOSNotification";
-  final static String password = "123456789";
+  final static String username = "postgres";
+  final static String password = "";
    public static void main( String args[] )
      {
        Connection c = null;
@@ -56,7 +56,7 @@ public class PostgreSQLJDBC {
          stmt = c.createStatement();
                 sql = "CREATE TABLE PUSH " +
                       "(ID SERIAL    NOT NULL," +
-                      " User_ID           int    NOT NULL, " +
+                      " User_ID          bigint    NOT NULL, " +
                       " MESSAGE          TEXT     NOT NULL)";
          stmt.executeUpdate(sql);
          c.close();
