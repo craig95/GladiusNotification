@@ -15,8 +15,8 @@ import java.sql.ResultSet;
  * @since   22-03-2017
  */
 public class MailLogger{
-	final static String username = "postgres";
-	final static String password = "";
+    final static String username = "gladios";
+    final static String password = "ios123#";
 	/**
 	 * This function logs a successful email sent to the database.
 	 * @param femail The email address the email was sent to.
@@ -31,7 +31,7 @@ public class MailLogger{
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
             username, password);
          c.setAutoCommit(false);
 
@@ -52,7 +52,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
 //            username, password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
@@ -94,7 +94,7 @@ public class MailLogger{
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
             username, password);
          c.setAutoCommit(false);
 
@@ -116,7 +116,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
 //            "GaldiOSNotification", password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
@@ -156,7 +156,7 @@ public class MailLogger{
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
             username, password);
          c.setAutoCommit(false);
 
@@ -178,7 +178,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
 //            username, password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");

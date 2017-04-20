@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 /**
- * Creates the needed tables for the MailLogger. The database name nees to be NotificationDB. Please make sure to change
+ * Creates the needed tables for the MailLogger. The database name nees to be NavUP_Notifications. Please make sure to change
  * the Username and Password fields to connect to the database.
  *
  * @author  GladiOS Notification Module Team
@@ -13,8 +13,8 @@ import java.sql.Statement;
  * @since   22-03-2017
  */
 public class PostgreSQLJDBC {
-  final static String username = "postgres";
-  final static String password = "";
+  final static String username = "gladios";
+  final static String password = "ios123#";
    public static void main( String args[] )
      {
        Connection c = null;
@@ -22,8 +22,8 @@ public class PostgreSQLJDBC {
        try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
-            username, "123456789");
+            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+            username, password);
          System.out.println("Opened database successfully");
 
          stmt = c.createStatement();
