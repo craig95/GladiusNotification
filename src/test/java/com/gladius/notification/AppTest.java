@@ -5,11 +5,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import javax.imageio.IIOException;
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * Unit test for simple App.
+ * Unit test for GladiOS Notification Module.
  */
 public class AppTest 
     extends TestCase
@@ -32,42 +31,120 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testBasicSendEmail() {
+    public void testBasicSend_Email() {
         NotificationInterface notification = NotificationInterface.getInstance();
-            if (notification.sendNotification(1, "Hello World Notification", "email"))  {
+            if (notification.sendNotification(1, "<h1>Hello World Notification</h1><br><p>This is a hello world test email.</p>", "email"))  {
                 assertTrue("Successfully sent email notification.", true);
             } else {
                 fail("Failed to send email notification.");
             }
     }
 
-//    public void testEmptyEmail() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(1, "", "email"))  {
-//            fail("Empty message validation failed.");
-//        } else {
-//            assertTrue("Empty message succeeded.", true);
-//        }
-//    }
-//
-//    public void testNonExistingID() {
-//        NotificationInterface notification = NotificationInterface.getInstance();
-//        if (notification.sendNotification(-1, "Test", "email"))  {
-//            fail("Non existing user validation failed.");
-//        } else {
-//            assertTrue("Non existing user validation succeeded.", true);
-//        }
-//    }
+    public void testBasicSend_SMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "Hello World SMS!", "sms"))  {
+            assertTrue("Successfully sent sms notification.", true);
+        } else {
+            fail("Failed to send SMS notification.");
+        }
+    }
+
+    public void testBasicSend_Push() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "Push Notification Test", "push"))  {
+            assertTrue("Successfully sent Push notification.", true);
+        } else {
+            fail("Failed to send Push notification.");
+        }
+    }
+
+    public void testEmptyMessage_Email() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "email"))  {
+            fail("Empty email message validation failed.");
+        } else {
+            assertTrue("Empty email message check succeeded.", true);
+        }
+    }
+
+    public void testEmptyMessage_SMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "sms"))  {
+            fail("Empty SMS message validation failed.");
+        } else {
+            assertTrue("Empty SMS message validation succeeded.", true);
+        }
+    }
+
+    public void testEmptyMessage_Push() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(1, "", "push"))  {
+            fail("Empty Push message validation failed.");
+        } else {
+            assertTrue("Empty Push message validation succeeded.", true);
+        }
+    }
+
+    public void testNonExistingID_Email() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(-1, "Test Non existing user (email).", "email"))  {
+            fail("Non existing user validation failed (email).");
+        } else {
+            assertTrue("Non existing user validation succeeded (email).", true);
+        }
+    }
+
+    public void testNonExistingID_SMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        if (notification.sendNotification(-1, "Test non existing user (SMS).", "sms"))  {
+            fail("Non existing user validation failed (SMS).");
+        } else {
+            assertTrue("Non existing user validation succeeded (SMS).", true);
+        }
+    }
 
     public void testNonExistingNotificationType() {
         NotificationInterface notification = NotificationInterface.getInstance();
-        if (notification.sendNotification(1, "Test", "blah"))  {
+        if (notification.sendNotification(1, "Message Heading", "blah"))  {
             fail("Non existing notification type validation failed.");
         } else {
             assertTrue("Non existing notification type validation succeeded.", true);
+        }
+    }
+
+    public void testBatchEmail() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        ArrayList<Long> userIDs = new ArrayList<Long>();
+        userIDs.add((long) 1);
+        userIDs.add((long) 2);
+        if (notification.sendNotification(userIDs, "NavUP Batch Email Notification Test", "email"))  {
+            assertTrue("Batch email notifications succeeded.", true);
+        } else {
+            fail("Batch email notifications failed");
+        }
+    }
+
+    public void testBatchSMS() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        ArrayList<Long> userIDs = new ArrayList<Long>();
+        userIDs.add((long) 1);
+        userIDs.add((long) 2);
+        if (notification.sendNotification(userIDs, "NavUP Batch SMS Notification Test", "sms")) {
+            assertTrue("Batch sms notifications succeeded.", true);
+        } else {
+            fail("Batch sms notifications failed");
+        }
+    }
+
+    public void testBatchPush() {
+        NotificationInterface notification = NotificationInterface.getInstance();
+        ArrayList<Long> userIDs = new ArrayList<Long>();
+        userIDs.add((long) 1);
+        userIDs.add((long) 2);
+        if (notification.sendNotification(userIDs, "NavUP Batch Push Notification Test", "push")) {
+            assertTrue("Batch push notifications succeeded.", true);
+        } else {
+            fail("Batch Push notifications failed");
         }
     }
 }

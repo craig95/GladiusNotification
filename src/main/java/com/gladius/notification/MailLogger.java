@@ -1,61 +1,66 @@
 package com.gladius.notification;
-//HD Haasbroek 15046657
-//JAVAC *.JAVA
-//en om te run:
-//java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 MailLogger
-//maar mens run net die class wat die fucntions call tho, so
-//maak dit java -cp postgresql-9.2-1002.jar;C:\Users\HD\Desktop\301 "callerClass"
-//RUN EERS DIE PostgreSQLJDBC om die tables te create op die machine
-//createdb -h localhost -p 5432 -U postgres dbname 
-//in bin folder van postgressql
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import org.postgresql.Driver;
-public class MailLogger{
 
-	public static void logMailSent(int fid,String femail,String fmessage) {
-//	    Connection c = null;
-//      Statement stmt = null;
-//      String email = femail;
-//      int id = fid;
-//      String message =fmessage;
-//      boolean sent = false;
-//      try {
-//         Class.forName("org.postgresql.Driver");
-//         c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbmail", "postgres", "Haasbroek11");
-//         c.setAutoCommit(false);
-//         System.out.println("Opened database successfully");
-//
-//         stmt = c.createStatement();
-//         String sql = "INSERT INTO SENT (ID,EMAIL,MESSAGE) "
-//               + "VALUES ('"+id+"','"+email+"','"+message+"');";
-//         stmt.executeUpdate(sql);
-//         stmt.close();
-//         c.commit();
-//         c.close();
-//      } catch (Exception e) {
-//         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-//         System.exit(0);
-//      }
-//      System.out.println("Records created successfully");
-//
-//
+/**
+ * The MailLogger class logs all emails and push notifications sent by the NotificationInterface and Mailer classes.
+ * Please make sure to change the Username and Password fields to connect to the database.
+ * Create database command: createdb -h localhost -p 5432 -U postgres dbname
+ *
+ * @author  GladiOS Notification Module Team
+ * @version 1.0
+ * @since   22-03-2017
+ */
+public class MailLogger{
+	final static String username = "postgres";
+	final static String password = "";
+	/**
+	 * This function logs a successful email sent to the database.
+	 * @param femail The email address the email was sent to.
+	 * @param fmessage The message that was emailed.
+	 */
+	public static void logMailSent(String femail,String fmessage) {
+	   Connection c = null;
+      Statement stmt = null;
+      String email = femail;
+      String message =fmessage;
+      boolean sent = false;
+      try {
+         Class.forName("org.postgresql.Driver");
+         c = DriverManager
+            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            username, password);
+         c.setAutoCommit(false);
+
+         stmt = c.createStatement();
+         String sql = "INSERT INTO SUCCESS (EMAIL,MESSAGE) "
+               + "VALUES ('"+email+"','"+message+"');";
+         stmt.executeUpdate(sql);
+         stmt.close();
+         c.commit();
+         c.close();
+      } catch (Exception e) {
+         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+         System.exit(0);
+      }
+
 //       c = null;
 //       stmt = null;
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/dbmail",
-//            "postgres", "Haasbroek11");
+//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            username, password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
 //
 //         stmt = c.createStatement();
-//         ResultSet rs = stmt.executeQuery( "SELECT * FROM SENT;" );
+//         ResultSet rs = stmt.executeQuery( "SELECT * FROM SUCCESS;" );
 //         while ( rs.next() ) {
-//            id = rs.getInt("id");
+//            int id = rs.getInt("id");
 //            email = rs.getString("email");
 //             message = rs.getString("message");
 //
@@ -74,50 +79,52 @@ public class MailLogger{
 
 	}
 
-	public static void logMailError(int fid,String femail,String fmessage) {
+	/**
+	 * This function logs an error that occured while sending an email.
+	 * @param femail The email address that the email was attempted to be sent to.
+	 * @param fmessage The error message.
+	 */
+	public  static void logMailError(String femail,String fmessage) {
 		//Log the errors incase any occur
-//	  Connection c = null;
-//      Statement stmt = null;
-//      String email = femail;
-//      int id = fid;
-//      String message =fmessage;
-//      boolean sent = false;
-//      try {
-//         Class.forName("org.postgresql.Driver");
-//         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/dbmail",
-//            "postgres", "Haasbroek11");
-//         c.setAutoCommit(false);
-//         System.out.println("Opened database successfully");
-//
-//         stmt = c.createStatement();
-//         String sql = "INSERT INTO FAILED (ID,EMAIL,MESSAGE) "
-//               + "VALUES ('"+id+"','"+email+"','"+message+"');";
-//         stmt.executeUpdate(sql);
-//         stmt.close();
-//         c.commit();
-//         c.close();
-//      } catch (Exception e) {
-//         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-//         System.exit(0);
-//      }
-//      System.out.println("Records created successfully");
-//
-//
+	  Connection c = null;
+      Statement stmt = null;
+      String email = femail;
+      String message =fmessage;
+      boolean sent = false;
+      try {
+         Class.forName("org.postgresql.Driver");
+         c = DriverManager
+            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            username, password);
+         c.setAutoCommit(false);
+
+         stmt = c.createStatement();
+         String sql = "INSERT INTO FAILED (EMAIL,MESSAGE) "
+               + "VALUES ('"+email+"','"+message+"');";
+         stmt.executeUpdate(sql);
+         stmt.close();
+         c.commit();
+         c.close();
+      } catch (Exception e) {
+         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+         System.exit(0);
+      }
+
+
 //       c = null;
 //       stmt = null;
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/dbmail",
-//            "postgres", "Haasbroek11");
+//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            "GaldiOSNotification", password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
 //
 //         stmt = c.createStatement();
 //         ResultSet rs = stmt.executeQuery( "SELECT * FROM FAILED;" );
 //         while ( rs.next() ) {
-//            id = rs.getInt("id");
+//            int id = rs.getInt("id");
 //            email = rs.getString("email");
 //             message = rs.getString("message");
 //
@@ -134,5 +141,68 @@ public class MailLogger{
 //         System.exit(0);
 //       }
 	}
+
+/**
+ * This function logs a push notification.
+ * @param fuserid The userID that the email needs to be sent to.
+ * @param fmessage The push notification message content.
+ */
+  public static void logPushNotification(long fuserid,String fmessage) {
+	  Connection c = null;
+      Statement stmt = null;
+      long user_id = fuserid;
+      String message =fmessage;
+      boolean sent = false;
+      try {
+         Class.forName("org.postgresql.Driver");
+         c = DriverManager
+            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+            username, password);
+         c.setAutoCommit(false);
+
+         stmt = c.createStatement();
+         String sql = "INSERT INTO PUSH (User_ID,MESSAGE) "
+               + "VALUES ('"+fuserid+"','"+message+"');";
+         stmt.executeUpdate(sql);
+         stmt.close();
+         c.commit();
+         c.close();
+      } catch (Exception e) {
+         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+         System.exit(0);
+      }
+
+
+//       c = null;
+//       stmt = null;
+//       try {
+//       Class.forName("org.postgresql.Driver");
+//         c = DriverManager
+//            .getConnection("jdbc:postgresql://localhost:5432/NotificationDB",
+//            username, password);
+//         c.setAutoCommit(false);
+//         System.out.println("Opened database successfully");
+//
+//         stmt = c.createStatement();
+//         ResultSet rs = stmt.executeQuery( "SELECT * FROM PUSH;" );
+//         while ( rs.next() ) {
+//            int id = rs.getInt("id");
+//            fuserid= rs.getInt("user_id");
+//             message = rs.getString("message");
+//
+//            System.out.println( "ID = " + id );
+//            System.out.println( "User_ID = " + user_id );
+//            System.out.println( "MESSAGE = " + message );
+//            System.out.println();
+//         }
+//         rs.close();
+//         stmt.close();
+//         c.close();
+//       } catch ( Exception e ) {
+//         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+//         System.exit(0);
+//       }
+  }
 }
+
 
