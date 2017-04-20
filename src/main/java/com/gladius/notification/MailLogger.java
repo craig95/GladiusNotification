@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 public class MailLogger{
     final static String username = "gladios";
     final static String password = "ios123#";
+    final static String DBName = "NavUP_Notifications";
 	/**
 	 * This function logs a successful email sent to the database.
 	 * @param femail The email address the email was sent to.
@@ -31,7 +32,7 @@ public class MailLogger{
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
             username, password);
          c.setAutoCommit(false);
 
@@ -52,7 +53,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+//            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
 //            username, password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
@@ -94,7 +95,7 @@ public class MailLogger{
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
             username, password);
          c.setAutoCommit(false);
 
@@ -116,7 +117,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+//            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
 //            "GaldiOSNotification", password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");
@@ -144,25 +145,25 @@ public class MailLogger{
 
 /**
  * This function logs a push notification.
- * @param fuserid The userID that the email needs to be sent to.
+ * @param _user The username that the email needs to be sent to.
  * @param fmessage The push notification message content.
  */
-  public static void logPushNotification(long fuserid,String fmessage) {
+  public static void logPushNotification(String _user ,String fmessage) {
 	  Connection c = null;
       Statement stmt = null;
-      long user_id = fuserid;
+      String user = _user;
       String message =fmessage;
       boolean sent = false;
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
             username, password);
          c.setAutoCommit(false);
 
          stmt = c.createStatement();
-         String sql = "INSERT INTO PUSH (User_ID,MESSAGE) "
-               + "VALUES ('"+fuserid+"','"+message+"');";
+         String sql = "INSERT INTO PUSH (username,MESSAGE) "
+               + "VALUES ('"+username+"','"+message+"');";
          stmt.executeUpdate(sql);
          stmt.close();
          c.commit();
@@ -178,7 +179,7 @@ public class MailLogger{
 //       try {
 //       Class.forName("org.postgresql.Driver");
 //         c = DriverManager
-//            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+//            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
 //            username, password);
 //         c.setAutoCommit(false);
 //         System.out.println("Opened database successfully");

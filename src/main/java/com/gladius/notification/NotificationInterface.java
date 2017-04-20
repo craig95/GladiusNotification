@@ -129,36 +129,36 @@ public class NotificationInterface {
 
     /**
      * Public interface to send a message to a single user.
-     * @param userID the ID of the user the message needs to be sent to.
+     * @param username the username of the user the message needs to be sent to.
      * @param message a message in string format that needs to be sent to the user.
      * @param noticeType the type of notification sms(to be determined), email or push notification.
      * @return will return true if the message was successfully sent and false if message failed to send.
      */
-    public boolean sendNotification(long userID, String message, String noticeType) {
-        ArrayList<Long> tempArray = new ArrayList<Long>();
-        tempArray.add(userID);
+    public boolean sendNotification(String username, String message, String noticeType) {
+        ArrayList<String> tempArray = new ArrayList<String>();
+        tempArray.add(username);
 		return sendNotification(tempArray, message, noticeType);
     }
 
     /**
      * Public interface to send a message to a array list of users.
-     * @param userIDs array list of IDs of the users the message needs to be sent to.
+     * @param usernames array list of usernames of the users the message needs to be sent to.
      * @param message a message in string format that needs to be sent to the user.
      * @param noticeType the type of notification sms(to be determined), email or push notification.
      * @return will return true if the message was successfully sent and false if message failed to send.
      */
-   public boolean sendNotification(ArrayList<Long> userIDs, String message, String noticeType) {
+   public boolean sendNotification(ArrayList<String> usernames, String message, String noticeType) {
         /*Validate the paramaters*/
-        String valid = validate(userIDs, message, noticeType);
+        String valid = validate(usernames, message, noticeType);
         if (valid == "valid notification") { //validation succeeded
             if (noticeType == "email") {
-                InternetAddress[] addresses = new InternetAddress[userIDs.size()];
+                InternetAddress[] addresses = new InternetAddress[usernames.size()];
                 String tempString = "";
                 try
                 {
-                    for(int i = 0; i < userIDs.size(); i++)
+                    for(int i = 0; i < usernames.size(); i++)
                     {
-                        InternetAddress[] tempAddress = InternetAddress.parse(getEmail(userIDs.get(i)));
+                        InternetAddress[] tempAddress = InternetAddress.parse(getEmail(usernames.get(i)));
                         addresses[i] = tempAddress[0];
                     }
                 } 
@@ -170,12 +170,12 @@ public class NotificationInterface {
                 return true;
             } 
             else if (noticeType == "sms") {
-                InternetAddress[] addresses = new InternetAddress[userIDs.size()];
+                InternetAddress[] addresses = new InternetAddress[usernames.size()];
                 try
                 {
-                  for(int i = 0; i < userIDs.size(); i++)
+                  for(int i = 0; i < usernames.size(); i++)
                   {
-                      String tempNumber = getNumber(userIDs.get(i));
+                      String tempNumber = getNumber(usernames.get(i));
                       if (tempNumber == null) {
                           return false;
                       }
@@ -192,7 +192,7 @@ public class NotificationInterface {
             }
             else if (noticeType == "push") {
                 String json_string = "{'message':'" + message + "'}";
-                PusherThread pusherThread = new PusherThread(userIDs, json_string);
+                PusherThread pusherThread = new PusherThread(usernames, json_string);
                 pusherThread.run();
                 return true;
             }
@@ -206,15 +206,15 @@ public class NotificationInterface {
      * Private function to validate the data sent to the sendNotification functions. This function checks whether there
      * are IDs in the array list, and whether the message has content and if the notice type is one of the three
      * possible types.
-     * @param userIDs array list of IDs of the users the message needs to be sent to.
+     * @param usernames array list of usernames of the users the message needs to be sent to.
      * @param message a message in string format that needs to be sent to the user.
      * @param noticeType the type of notification normal or urgent.
      * @return will return "valid" if all parameters are valid and an error message if the paramaters are invalid.
      */
-    private String validate(ArrayList<Long> userIDs, String message, String noticeType) {
+    private String validate(ArrayList<String> usernames, String message, String noticeType) {
         if(message == null || message == "")
             return "invalid notification(No Message)";
-        if (userIDs == null || userIDs.isEmpty())
+        if (usernames == null || usernames.isEmpty())
             return "invalid  notification(No Users)";
         if (noticeType != null) {
             if (!(noticeType == "email" || noticeType == "sms" || noticeType == "push"))
@@ -227,35 +227,30 @@ public class NotificationInterface {
 
     /**
      * Private function to get the email of a user given their ID. The email will be retrieved from the users module.
-     * @param userID the ID of the user whose email is needed.
+     * @param username the username of the user whose email is needed.
      * @return returns a string containing a users email if found or null if the user's email could not be found.
      */
-    private String getEmail(Long userID) {
-        if (userID == 1) {
-            return "u15029779@tuks.co.za";
-        } else if (userID == 2) {
-            return "u15059538@tuks.co.za";
-        } else {
+    private String getEmail(String username) {
+        String tempEmail = UsersInterface.getEmail(username);
+        if (tempEmail == "")
             return null;
-        }
-
+        else
+            return tempEmail;
     }
 
     /**
      * Private function to get the phone number of a user given their ID. The phone number will be retrieved  from the
      * users module.
-     * @param userID the ID of the user whose phone number is needed.
+     * @param username the username of the user whose phone number is needed.
      * @return returns a string containing a users phone number if found or null if the user's phone number could not
      * be found.
      */
-    private String getNumber(Long userID) {
-        if (userID == 1) {
-            return "0712526999";
-        } else if (userID == 2) {
-            return "0737147635";
-        } else {
+    private String getNumber(String username) {
+        String tempNumber = UsersInterface.getPhoneNumber(username);
+        if (tempNumber == "")
             return null;
-        }
+        else
+            return tempNumber;
     }
 
     /**
@@ -348,18 +343,18 @@ public class NotificationInterface {
      * Private class that handles Push Notifications. If the server supports it.
      */
     private class PusherThread implements Runnable {
-        ArrayList<Long> userIDs;
+        ArrayList<String> usernames;
         String jsonString;
-        public PusherThread(ArrayList<Long> _userIDs, String _jsonString) {
-            userIDs = _userIDs;
+        public PusherThread(ArrayList<String> _usernames, String _jsonString) {
+            usernames = _usernames;
             jsonString = _jsonString;
         }
 
         public void run() {
-            for (Long userID : userIDs) {
+            for (String username : usernames) {
                 //WebServer.sendPushNotification(userID, jsonString);
                 JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonString);
-                MailLogger.logPushNotification(userID, json.getString("message"));
+                MailLogger.logPushNotification(username, json.getString("message"));
             }
         }
     }

@@ -15,6 +15,7 @@ import java.sql.Statement;
 public class PostgreSQLJDBC {
   final static String username = "gladios";
   final static String password = "ios123#";
+  final static String DBName = "NavUP_Notifications";
    public static void main( String args[] )
      {
        Connection c = null;
@@ -22,7 +23,7 @@ public class PostgreSQLJDBC {
        try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/NavUP_Notifications",
+            .getConnection("jdbc:postgresql://localhost:5432/" + DBName,
             username, password);
          System.out.println("Opened database successfully");
 
@@ -56,7 +57,7 @@ public class PostgreSQLJDBC {
          stmt = c.createStatement();
                 sql = "CREATE TABLE PUSH " +
                       "(ID SERIAL    NOT NULL," +
-                      " User_ID          bigint    NOT NULL, " +
+                      " username             TEXT     NOT NULL, " +
                       " MESSAGE          TEXT     NOT NULL)";
          stmt.executeUpdate(sql);
          c.close();
