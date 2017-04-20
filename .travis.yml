@@ -1,3 +1,10 @@
+services:
+  - postgresql
+before_script:
+- psql -c 'create database NotificationDB;' -U postgres
+- psql -c 'DROP TABLE IF EXISTS SUCCESS CREATE TABLE SUCCESS ID SERIAL NOT NULL,EMAIL TEXT NOT NULL MESSAGE TEXT NOT NULL;' -U postgres
+- psql -c 'DROP TABLE IF EXISTS FAILED CREATE TABLE FAILED ID SERIAL NOT NULL,EMAIL TEXT NOT NULL MESSAGE TEXT NOT NULL;' -U postgres
+- psql -c 'DROP TABLE IF EXISTS PUSH CREATE TABLE PUSH ID SERIAL NOT NULL User_ID int NOT NULL,MESSAGE TEXT NOT NULL;' -U postgres
 language: java
 sudo: false
 script: mvn clean verify
