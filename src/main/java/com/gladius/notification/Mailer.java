@@ -107,11 +107,15 @@ public class Mailer {
             smtpTransport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             smtpTransport.close();
             //Log Success
-            MailLogger.logMailSent(0, email.toString(), content);
+            for (InternetAddress aEmail : email) {
+                MailLogger.logMailSent(aEmail.toString(), content);
+            }
             return true;
         } catch (MessagingException e) {
             //Log Failure
-            MailLogger.logMailError(0, email.toString(), e.toString());
+            for (InternetAddress aEmail : email) {
+                MailLogger.logMailError(aEmail.toString(), e.toString());
+            }
             return false;
         }
     }
