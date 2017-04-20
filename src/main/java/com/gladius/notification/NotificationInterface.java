@@ -358,6 +358,7 @@ public class NotificationInterface {
         public void run() {
             for (Long userID : userIDs) {
                 //WebServer.sendPushNotification(userID, jsonString);
+                MailLogger.logPushNotification(userID, jsonString);
             }
         }
     }

@@ -147,10 +147,10 @@ public class MailLogger{
  * @param fuserid The userID that the email needs to be sent to.
  * @param fmessage The push notification message content.
  */
-  public void logPushNotification(int fuserid,String fmessage) {
+  public static void logPushNotification(long fuserid,String fmessage) {
 	  Connection c = null;
       Statement stmt = null;
-      int user_id = fuserid;
+      long user_id = fuserid;
       String message =fmessage;
       boolean sent = false;
       try {
